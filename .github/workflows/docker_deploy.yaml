@@ -1,0 +1,37 @@
+name: App Build and Push To AZCR
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Login to Azure CR
+        uses: azure/docker-login@v2
+        with:
+          login-server: lrnazr.azurecr.io
+          username: ${{ secrets.AZCR_USERNAME }}
+          password: ${{ secrets.AZCR_PASSWORD }}
+      -
+        name: Build and Push
+        run: |
+          docker build . -t lrnazr.azurecr.io/just_react:${{ github.sha }}
+          docker push lrnazr.azurecr.io/just_react:${{ github.sha }}
+      -
+        name: Add build summary
+        run: |
+          echo '### 🚀 AZCR Build and Push Summary' > $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '🔧 **Build Status**: The Docker image has been successfully built and pushed.' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '🛠️ **Build Context**: .' >> $GITHUB_STEP_SUMMARY
+          echo '📦 **Image Tag**: ${{ secrets.DOCKERHUB_USERNAME }}/just_react:${{ github.sha }}' >> $GITHUB_STEP_SUMMARY
+          echo '' >> $GITHUB_STEP_SUMMARY
+          echo '🎉 **Thanks for using GitHub Actions!**' >> $GITHUB_STEP_SUMMARY
