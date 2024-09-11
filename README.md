@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# CI/CD Pipeline: GitHub Actions, Azure Container Registry, and Azure App Service
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project automates the deployment process using GitHub Actions for continuous integration and continuous deployment (CI/CD). The Docker image is built and pushed to **Azure Container Registry (ACR)**, from where it is deployed to **Azure App Service**.
 
-Currently, two official plugins are available:
+## 📊 Architecture Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The architecture follows a streamlined CI/CD pipeline:
 
-## Expanding the ESLint configuration
+1. **GitHub**: Hosts the source code.
+2. **GitHub Actions**: Automates the building and pushing of Docker images.
+3. **Azure Container Registry (ACR)**: Stores the Docker images.
+4. **Azure App Service**: Pulls the images from ACR and deploys them.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Architecture Flow:
+- **Code Push** ➡️ GitHub triggers GitHub Actions.
+- **Build & Push Docker Image** ➡️ Docker image is built and pushed to ACR.
+- **Deploy** ➡️ Azure App Service pulls the latest image from ACR and deploys it.
 
-- Configure the top-level `parserOptions` property like this:
+### CI/CD Workflow Steps:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+| Step                       | Description                                                                 |
+| -------------------------- | --------------------------------------------------------------------------- |
+| **1. Code Push**            | Code pushed to the `master` branch triggers the CI/CD workflow in GitHub Actions. |
+| **2. Build Docker Image**   | GitHub Actions builds a Docker image from the codebase.                     |
+| **3. Push to ACR**          | The built image is pushed to **Azure Container Registry** for storage.      |
+| **4. Deploy to App Service**| Azure App Service pulls the image from ACR and redeploys the app.           |
+| **5. Build Summary**        | GitHub Actions generates a summary for the completed build and deployment.  |
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 🔗 Component Overview
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+| Component                    | Description                                                                                          |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **GitHub**                    | The source control platform where code is stored and updated.                                        |
+| **GitHub Actions**            | The CI/CD pipeline that automates building, pushing, and deploying the Docker image.                 |
+| **Docker**                    | A platform used to build the application into a containerized image.                                 |
+| **Azure Container Registry**  | Stores the Docker image for future deployments.                                                      |
+| **Azure App Service**         | Hosts the application and pulls the latest Docker image from ACR for deployment.                     |
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Diagram
+
+![CI/CD Architecture Diagram](<img width="1152" alt="acr drawio (2) 1" src="https://github.com/user-attachments/assets/2499f6e7-6522-46dd-a31f-00a684182c40">
+)
+
+ This diagram visually explains the flow from GitHub to Azure App Service using Docker containers stored in Azure Container Registry.
+
+## ⚙️ Deployment Workflow
+
+1. **Code Push**: When you push code to the `master` branch, the CI/CD workflow is triggered.
+2. **GitHub Actions**: Automatically builds the Docker image and pushes it to ACR.
+3. **Azure App Service**: Fetches the latest image from ACR and deploys it.
+
+### 🚀 Key Benefits of this CI/CD Setup:
+
+- **Automated Deployment**: No need for manual deployment, every push to `master` results in an automated build and deployment.
+- **Scalable**: With Azure App Service, you can easily scale your app without changing the pipeline.
+- **Versioned Docker Images**: Each build is tagged with a unique Git commit SHA to maintain versioning.
+- **Containerized Workflow**: Leveraging Docker ensures consistency between development and production environments.
+
+## 👨‍💻 How to Use
+
+1. **Clone the repository** and push your code changes to the `master` branch.
+2. The GitHub Actions pipeline will automatically build and push the Docker image to ACR.
+3. Azure App Service will pull the latest image and redeploy the app.
+4. You can view the build summary in the GitHub Actions page for every commit.
+
