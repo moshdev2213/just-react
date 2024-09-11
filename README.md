@@ -2,12 +2,10 @@
 
 This project automates the deployment process using GitHub Actions for continuous integration and continuous deployment (CI/CD). The Docker image is built and pushed to **Azure Container Registry (ACR)**, from where it is deployed to **Azure App Service**.
 
-
-### 📷 Diagram
+ This diagram visually explains the flow from GitHub to Azure App Service using Docker containers stored in Azure Container Registry.
 
 <img width="1152" alt="acr drawio (2) 1" src="https://github.com/user-attachments/assets/2499f6e7-6522-46dd-a31f-00a684182c40">
 
- This diagram visually explains the flow from GitHub to Azure App Service using Docker containers stored in Azure Container Registry.
 
 ## 📊 Architecture Overview
 
