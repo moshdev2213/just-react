@@ -1,4 +1,4 @@
-# CI/CD Pipeline: GitHub Actions, Azure Container Registry, and Azure App Service
+# CI/CD With GitHub Actions, Azure Container Registry, and Azure App Service
 
 This project automates the deployment process using GitHub Actions for continuous integration and continuous deployment (CI/CD). The Docker image is built and pushed to **Azure Container Registry (ACR)**, from where it is deployed to **Azure App Service**.
 
