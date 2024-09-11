@@ -25,6 +25,13 @@ jobs:
           docker build . -t lrnazr.azurecr.io/just_react:${{ github.sha }}
           docker push lrnazr.azurecr.io/just_react:${{ github.sha }}
       -
+        name: Deploy To Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'just-react'
+          publish-profile: ${{ secrets.azureWebAppPublishProfile }}
+          images: 'lrnazr.azurecr.io/just_react:${{ github.sha }}'
+      -
         name: Add build summary
         run: |
           echo '### 🚀 AZCR Build and Push Summary' > $GITHUB_STEP_SUMMARY

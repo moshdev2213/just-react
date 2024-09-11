@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import azap from './assets/azas.png'
+import azcr from './assets/azcr.svg'
+
 import './App.css'
 
 function App() {
@@ -10,7 +12,10 @@ function App() {
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <img src={azcr} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={azap} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
@@ -19,12 +24,15 @@ function App() {
       <h1>AZCR + AZAS</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+          Click Me : {count}
         </button>
         
       </div>
       <p className="read-the-docs">
         Created In Order To Learn Azure Deployments
+      </p>
+      <p className="read-the-docs">
+        made with ❤ <a target='_blank' href="https://github.com/moshdev2213">@moshdev2213</a>
       </p>
     </>
   )
